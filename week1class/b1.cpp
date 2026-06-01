@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+
 class Account
 {
 public:
@@ -9,6 +10,9 @@ public:
 
     Account()
     {
+        name = "";
+        acn = 0;
+        balance = 0;
     }
 
     void Open_account(string n, int a, int b)
@@ -17,51 +21,42 @@ public:
         acn = a;
         balance = b;
     }
+
     void Delete()
     {
         if (balance > 0)
             cout << "Account can not be deleted. Withdraw your money first ;)" << endl;
         else
         {
-            name = " ";
+            name = "";
             acn = 0;
             balance = 0;
             cout << "Account deleted successfully" << endl;
         }
     }
 
-    
     void deposit(int b)
     {
-        int old = balance;
-        balance = b;
-        old += balance;
-        balance = old;
+        balance += b;
     }
-
 
     void withdraw(int b)
     {
-
-        int old = balance;
-        balance = b;
-
-        if (b > old)
-            cout << "Insufficient balance " << endl;
+        if (b > balance)
+            cout << "Insufficient balance" << endl;
         else
-        {
-            old -= b;
-            balance = old;
-        }
+            balance -= b;
     }
+
     void Getdata()
     {
         cout << "Account number : " << acn << endl;
         cout << "Name           : " << name << endl;
-        cout << "balance        : " << balance << " Taka " << endl;
+        cout << "Balance        : " << balance << " Taka" << endl;
         cout << ".......................\n";
     }
 };
+
 void print()
 {
     cout << "************* Main Menu ************* \n";
@@ -71,8 +66,9 @@ void print()
     cout << "4. Withdraw money" << endl;
     cout << "5. Check balance" << endl;
     cout << "6. Exit" << endl;
-    cout << "   Enter your option (1-6): " << endl;
+    cout << "Enter your option (1-6): ";
 }
+
 int main()
 {
     int choice;
@@ -97,18 +93,32 @@ int main()
 
             cout << "Enter your balance: ";
             cin >> Bal;
-            Acn = 1000 + index + 1;
 
+            Acn = 1001 + index;
             b[Acn].Open_account(Name, Acn, Bal);
             b[Acn].Getdata();
             index++;
             break;
+
+        case 2:
+            cout << "Enter your account number: ";
+            cin >> temp_Acn;
+
+            if (temp_Acn >= 1001 && temp_Acn < 1001 + index && b[temp_Acn].acn != 0)
+            {
+                b[temp_Acn].Delete();
+            }
+            else
+                cout << "Invalid account" << endl;
+            break;
+
         case 3:
             cout << "Enter your account number: ";
             cin >> temp_Acn;
-            if (temp_Acn < (index - 1) && temp_Acn > 1000)
+
+            if (temp_Acn >= 1001 && temp_Acn < 1001 + index && b[temp_Acn].acn != 0)
             {
-                cout << "Enter your depost balance: ";
+                cout << "Enter your deposit balance: ";
                 cin >> temp_balance;
                 b[temp_Acn].deposit(temp_balance);
                 b[temp_Acn].Getdata();
@@ -116,52 +126,41 @@ int main()
             }
             else
                 cout << "Invalid account" << endl;
-
             break;
+
         case 4:
             cout << "Enter your account number: ";
             cin >> temp_Acn;
-            if (temp_Acn < (index - 1) && temp_Acn > 1000)
+
+            if (temp_Acn >= 1001 && temp_Acn < 1001 + index && b[temp_Acn].acn != 0)
             {
-                cout << "Enter your withdrwal balance: ";
+                cout << "Enter your withdrawal balance: ";
                 cin >> temp_balance;
                 b[temp_Acn].withdraw(temp_balance);
                 b[temp_Acn].Getdata();
-                cout << "Sucess" << endl;
-            }
-            else
-                cout << "Invalid account\n";
-
-            break;
-        case 2:
-            cout << "Enter your account number: ";
-            cin >> temp_Acn;
-            if (temp_Acn < (index - 1) && temp_Acn > 1000)
-            {
-                b[temp_Acn].Delete();
             }
             else
                 cout << "Invalid account" << endl;
-
             break;
+
         case 5:
             cout << "Enter your account number: ";
             cin >> temp_Acn;
-            if (temp_Acn < (index - 1) && temp_Acn > 1000)
+
+            if (temp_Acn >= 1001 && temp_Acn < 1001 + index && b[temp_Acn].acn != 0)
             {
                 cout << "Your current balance: " << b[temp_Acn].balance << " Taka" << endl;
             }
             else
                 cout << "Invalid account" << endl;
-
             break;
+
         case 6:
             cout << "Thank you" << endl;
             return 0;
-            break;
 
         default:
-            break;
+            cout << "Invalid option" << endl;
         }
     }
 }
